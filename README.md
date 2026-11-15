@@ -5,8 +5,8 @@
 **Asignatura:** Inteligencia Artificial  
 **Universidad:** Universidad Dominicana O&M  
 
-🔗 **URL del Repositorio en GitHub:** [https://github.com/KratosTechRD/portafolio-cyberpunk-ia](https://github.com/KratosTechRD/portafolio-cyberpunk-ia)  
-🌐 **URL Pública en GitHub Pages:** [https://kratostechrd.github.io/portafolio-cyberpunk-ia/](https://kratostechrd.github.io/portafolio-cyberpunk-ia/)  
+🔗 **URL del Repositorio en GitHub:** [https://github.com/KratosTechRD/portafolio-cyberpunk-ia](https://github.com/KratosTechRD/portafolio-cyberpunk-IA)  
+🌐 **URL Pública en GitHub Pages:** [https://kratostechrd.github.io/portafolio-cyberpunk-ia/](https://kratostechrd.github.io/portafolio-cyberpunk-IA/)  
 
 ---
 
