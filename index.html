@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portafolio Profesional Cyberpunk de José Manuel Cuevas Jiménez - Ingeniería de Sistemas, IA, Ciberseguridad y Soporte TI.">
+  <meta name="author" content="José Manuel Cuevas Jiménez - Matrícula 23-MIST-8-001">
+  <title>José Manuel Cuevas | Portafolio Cyberpunk IA</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Devicon (Íconos oficiales reales del Stack Tecnológico) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* Variables Modo Oscuro (Por defecto) - Contraste 100% garantizado */
+    :root[data-theme="dark"] {
+      --bg-primary: rgba(8, 10, 16, 0.88);
+      --bg-secondary: rgba(14, 18, 28, 0.92);
+      --bg-card: rgba(18, 24, 38, 0.92);
+      --text-main: #f8f9fa;
+      --text-muted: #b0bac9;
+      --neon-cyan: #00f3ff;
+      --neon-pink: #ff0055;
+      --neon-green: #00ff66;
+      --neon-yellow: #fcee0a;
+      --border-color: rgba(0, 243, 255, 0.35);
+      --navbar-bg: rgba(6, 8, 14, 0.95);
+      --matrix-opacity: 0.22;
+    }
+
+    /* Variables Modo Claro - Contraste 100% garantizado */
+    :root[data-theme="light"] {
+      --bg-primary: rgba(244, 247, 252, 0.92);
+      --bg-secondary: rgba(230, 236, 245, 0.95);
+      --bg-card: #ffffff;
+      --text-main: #0b0f19;
+      --text-muted: #374151;
+      --neon-cyan: #005bb5;
+      --neon-pink: #c90044;
+      --neon-green: #007a33;
+      --neon-yellow: #b36b00;
+      --border-color: rgba(0, 91, 181, 0.4);
+      --navbar-bg: rgba(255, 255, 255, 0.96);
+      --matrix-opacity: 0.10;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'Share Tech Mono', monospace;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    /* Canvas Matrix Fijo en el Fondo */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: var(--matrix-opacity);
+      pointer-events: none;
+    }
+
+    h1, h2, h3, h4, h5, .navbar-brand {
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .text-cyan { color: var(--neon-cyan) !important; }
+    .text-pink { color: var(--neon-pink) !important; }
+    .text-green { color: var(--neon-green) !important; }
+    .text-yellow { color: var(--neon-yellow) !important; }
+    .text-muted-cyber { color: var(--text-muted) !important; }
+
+    /* Navbar */
+    .cyber-nav {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--neon-cyan);
+    }
+    .cyber-nav .nav-link {
+      color: var(--text-main) !important;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .cyber-nav .nav-link:hover {
+      color: var(--neon-pink) !important;
+    }
+
+    /* Hero & Foto de Perfil */
+    .hero-section {
+      min-height: 100vh;
+      padding-top: 95px;
+      padding-bottom: 50px;
+    }
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.45);
+      object-fit: cover;
+      background: #111827;
+    }
+
+    /* Tarjetas Cyberpunk */
+    .cyber-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--neon-cyan);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .cyber-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 243, 255, 0.2);
+      border-color: var(--neon-pink);
+    }
+
+    /* Tarjetas Brillantes de Stack */
+    .stack-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      transition: all 0.25s ease;
+    }
+    .stack-card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.35);
+      transform: scale(1.04);
+    }
+    .stack-icon {
+      font-size: 2.8rem;
+    }
+
+    /* Botones Cyberpunk */
+    .btn-cyber-cyan, .btn-cyber-pink {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 0;
+      padding: 10px 20px;
+      transition: all 0.25s;
+    }
+    .btn-cyber-cyan {
+      border: 2px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: transparent;
+    }
+    .btn-cyber-cyan:hover, .btn-cyber-cyan.active {
+      background: var(--neon-cyan);
+      color: #ffffff;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+    :root[data-theme="dark"] .btn-cyber-cyan:hover,
+    :root[data-theme="dark"] .btn-cyber-cyan.active {
+      color: #000000;
+    }
+    .btn-cyber-pink {
+      border: 2px solid var(--neon-pink);
+      background: var(--neon-pink);
+      color: #ffffff;
+    }
+    .btn-cyber-pink:hover {
+      background: transparent;
+      color: var(--neon-pink);
+      box-shadow: 0 0 15px var(--neon-pink);
+    }
+
+    /* Inputs */
+    .cyber-input {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 0;
+    }
+    .cyber-input:focus {
+      background-color: var(--bg-secondary);
+      color: var(--text-main);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+    }
+
+    .section-title {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo Matrix Translúcido -->
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- Navbar con Toggle Dark/Light -->
+  <nav class="navbar navbar-expand-lg fixed-top cyber-nav">
+    <div class="container">
+      <a class="navbar-brand text-cyan fw-bold" href="#inicio">&lt;JC_CYBER // IA&gt;</a>
+      <div class="d-flex align-items-center order-lg-last ms-2">
+        <button id="themeToggle" class="btn btn-sm btn-cyber-cyan" aria-label="Cambiar tema Dark/Light">
+          <i class="bi bi-sun-fill" id="themeIcon"></i> <span id="themeText">LIGHT</span>
+        </button>
+        <button class="navbar-toggler ms-2 border-info" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <i class="bi bi-list text-cyan fs-3"></i>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav gap-2 me-3">
+          <li class="nav-item"><a class="nav-link" href="#inicio">INICIO</a></li>
+          <li class="nav-item"><a class="nav-link" href="#stack">STACK</a></li>
+          <li class="nav-item"><a class="nav-link" href="#proyectos">PROYECTOS</a></li>
+          <li class="nav-item"><a class="nav-link" href="#experiencia">EXPERIENCIA</a></li>
+          <li class="nav-item"><a class="nav-link" href="#videos">VIDEOS</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">CONTACTO</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 1. Sección Hero -->
+  <header id="inicio" class="hero-section d-flex align-items-center text-center">
+    <div class="container">
+      <img src="https://ui-avatars.com/api/?name=Jose+Cuevas&background=090a0f&color=00f3ff&size=200&font-size=0.4&bold=true" alt="Foto de perfil de José Manuel Cuevas" class="profile-avatar mb-3">
+      <p class="small text-green fw-bold mb-2">[ MATRÍCULA: 23-MIST-8-001 // NODO ONLINE ]</p>
+      <h1 class="display-4 fw-bold">JOSÉ MANUEL CUEVAS JIMÉNEZ</h1>
+      <h3 class="h4 text-cyan mt-2">&gt; Ingeniería de Sistemas | IA | Ciberseguridad & Soporte TI</h3>
+      <p class="lead text-muted-cyber mx-auto mt-3" style="max-width: 720px;">
+        Estudiante de Ingeniería de Sistemas en la Universidad Dominicana O&M con formación técnica en mantenimiento de hardware/software (ITEROM), ciberseguridad (ITLA) e Inglés de Inmersión (MESCyT - Nivel B1/B2). Enfocado en el desarrollo web moderno y soluciones con Inteligencia Artificial.
+      </p>
+      <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+        <a href="#proyectos" class="btn btn-cyber-pink">EXPLORAR 9 PROYECTOS</a>
+        <a href="#contacto" class="btn btn-cyber-cyan">CONTACTAR AHORA</a>
+        <a href="https://github.com/KratosTechRD" target="_blank" rel="noopener noreferrer" class="btn btn-cyber-cyan">
+          <i class="bi bi-github"></i> GITHUB
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Stack Tecnológico con Íconos Oficiales -->
+  <section id="stack" class="py-5">
+    <div class="container">
+      <h2 class="section-title mb-4"><span class="text-cyan">// 01.</span> STACK_TECNOLÓGICO</h2>
+      <div class="row g-3 text-center">
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stack-card p-3 h-100">
+            <i class="devicon-html5-plain colored stack-icon"></i>
+            <h6 class="mt-2 mb-0">HTML5</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stack-card p-3 h-100">
+            <i class="devicon-css3-plain colored stack-icon"></i>
+            <h6 class="mt-2 mb-0">CSS3</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stack-card p-3 h-100">
+            <i class="devicon-javascript-plain colored stack-icon"></i>
+            <h6 class="mt-2 mb-0">JavaScript</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stack-card p-3 h-100">
+            <i class="devicon-bootstrap-plain colored stack-icon"></i>
+            <h6 class="mt-2 mb-0">Bootstrap 5</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stack-card p-3 h-100">
+            <i class="devicon-python-plain colored stack-icon"></i>
+            <h6 class="mt-2 mb-0">Python & IA</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stack-card p-3 h-100">
+            <i class="devicon-git-plain colored stack-icon"></i>
+            <h6 class="mt-2 mb-0">Git & GitHub</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 9 Proyectos con Filtros Dinámicos (Web, App y Diseño) -->
+  <section id="proyectos" class="py-5">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <h2 class="section-title mb-0"><span class="text-pink">// 02.</span> PROYECTOS_DESTACADOS (9)</h2>
+        <div class="btn-group flex-wrap" role="group" aria-label="Filtros de proyectos">
+          <button type="button" class="btn btn-cyber-cyan active filter-btn" data-filter="all">TODOS (9)</button>
+          <button type="button" class="btn btn-cyber-cyan filter-btn" data-filter="web">WEB (3)</button>
+          <button type="button" class="btn btn-cyber-cyan filter-btn" data-filter="app">APP & IA (3)</button>
+          <button type="button" class="btn btn-cyber-cyan filter-btn" data-filter="diseno">DISEÑO UI (3)</button>
+        </div>
+      </div>
+
+      <div class="row g-4" id="projectsGrid">
+        <!-- WEB 1 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="web">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-info text-dark mb-2">WEB</span>
+              <h5 class="text-cyan">01. Portafolio Cyberpunk v1</h5>
+              <p class="small text-muted-cyber">Landing page responsiva desplegada en GitHub Pages con arquitectura Bootstrap 5.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD/portafolio-cyberpunk" target="_blank" class="btn btn-sm btn-cyber-cyan mt-3">VER REPO <i class="bi bi-github"></i></a>
+          </div>
+        </div>
+        <!-- WEB 2 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="web">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-info text-dark mb-2">WEB</span>
+              <h5 class="text-cyan">02. Portal de Auditoría Web</h5>
+              <p class="small text-muted-cyber">Panel informativo para verificación de certificados SSL/TLS y cabeceras de seguridad HTTP.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-cyan mt-3">VER DEMO <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+        <!-- WEB 3 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="web">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-info text-dark mb-2">WEB</span>
+              <h5 class="text-cyan">03. Gestor de Tickets Soporte TI</h5>
+              <p class="small text-muted-cyber">Sistema web para registro de diagnósticos de PC, reparaciones y control de clientes.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-cyan mt-3">VER DEMO <i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+
+        <!-- APP 1 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="app">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-danger mb-2">APP & IA</span>
+              <h5 class="text-pink">04. Asistente IA de Diagnóstico</h5>
+              <p class="small text-muted-cyber">Aplicación interactiva basada en prompts para identificar fallas de hardware y códigos BIOS.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-pink mt-3">EXPLORAR APP <i class="bi bi-cpu"></i></a>
+          </div>
+        </div>
+        <!-- APP 2 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="app">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-danger mb-2">APP & IA</span>
+              <h5 class="text-pink">05. Analizador de Phishing IA</h5>
+              <p class="small text-muted-cyber">Script de evaluación heurística de enlaces sospechosos aplicando conceptos de ciberseguridad del ITLA.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-pink mt-3">EXPLORAR APP <i class="bi bi-shield-lock"></i></a>
+          </div>
+        </div>
+        <!-- APP 3 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="app">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-danger mb-2">APP & IA</span>
+              <h5 class="text-pink">06. Traductor Técnico Bilingüe</h5>
+              <p class="small text-muted-cyber">Herramienta de glosario técnico Inglés/Español orientada a documentación de Ingeniería de Sistemas.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-pink mt-3">EXPLORAR APP <i class="bi bi-translate"></i></a>
+          </div>
+        </div>
+
+        <!-- DISEÑO 1 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="diseno">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-warning text-dark mb-2">DISEÑO</span>
+              <h5 class="text-yellow">07. UI Kit Neon Matrix</h5>
+              <p class="small text-muted-cyber">Sistema de diseño con variables CSS para modo Dark/Light garantizando accesibilidad WCAG AAA.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-cyan mt-3">VER UI KIT <i class="bi bi-palette"></i></a>
+          </div>
+        </div>
+        <!-- DISEÑO 2 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="diseno">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-warning text-dark mb-2">DISEÑO</span>
+              <h5 class="text-yellow">08. Dashboard Telemetría CRM</h5>
+              <p class="small text-muted-cyber">Maquetación minimalista de métricas de atención al cliente e indicadores de resolución de casos.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-cyan mt-3">VER DISEÑO <i class="bi bi-bar-chart"></i></a>
+          </div>
+        </div>
+        <!-- DISEÑO 3 -->
+        <div class="col-md-6 col-lg-4 project-item" data-category="diseno">
+          <div class="cyber-card p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span class="badge bg-warning text-dark mb-2">DISEÑO</span>
+              <h5 class="text-yellow">09. Prototipo E-Commerce Tech</h5>
+              <p class="small text-muted-cyber">Diseño de interfaz moderna para tienda de componentes de hardware y periféricos gamer.</p>
+            </div>
+            <a href="https://github.com/KratosTechRD" target="_blank" class="btn btn-sm btn-cyber-cyan mt-3">VER DISEÑO <i class="bi bi-cart3"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Experiencia Laboral (3 Tarjetas Centradas Auto-Ajustables) -->
+  <section id="experiencia" class="py-5">
+    <div class="container">
+      <h2 class="section-title mb-4"><span class="text-green">// 03.</span> EXPERIENCIA_Y_FORMACIÓN</h2>
+      <div class="row g-4 justify-content-center">
+        <!-- Tarjeta 1 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="bi bi-pc-display text-cyan fs-1"></i>
+            <h5 class="mt-3 text-cyan">Técnico de Computadoras (Freelance)</h5>
+            <p class="badge bg-secondary">2023 - Actualidad</p>
+            <p class="small text-muted-cyber mb-0">
+              Diagnóstico y reparación de hardware/software, instalación de sistemas operativos, paquetes ofimáticos y asesoría personalizada en soluciones TI.
+            </p>
+          </div>
+        </div>
+        <!-- Tarjeta 2 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="bi bi-headset text-pink fs-1"></i>
+            <h5 class="mt-3 text-pink">Agente de Call Center</h5>
+            <p class="badge bg-secondary">Truevoice Consulting SRL | Dic 2024 - Jun 2025</p>
+            <p class="small text-muted-cyber mb-0">
+              Atención al cliente para cuentas internacionales, gestión de sistemas CRM y resolución eficiente de incidencias técnicas básicas.
+            </p>
+          </div>
+        </div>
+        <!-- Tarjeta 3 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="cyber-card p-4 h-100 text-center">
+            <i class="bi bi-mortarboard text-yellow fs-1"></i>
+            <h5 class="mt-3 text-yellow">Formación Académica & Certificaciones</h5>
+            <p class="badge bg-secondary">O&M | ITLA | ITEROM | MESCyT</p>
+            <p class="small text-muted-cyber mb-0">
+              Ingeniería de Sistemas (O&M, 2023-Actualidad), Ciberseguridad (ITLA), Soporte de PC (ITEROM) e Inglés por Inmersión Nivel B1/B2 (MESCyT).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Videos Destacados de YouTube (3 Visibles + 9 Comentados en Código) -->
+  <section id="videos" class="py-5">
+    <div class="container">
+      <h2 class="section-title mb-4"><span class="text-yellow">// 04.</span> VIDEOS_DESTACADOS_IA</h2>
+      <div class="row g-4">
+        <!-- Video 1 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="cyber-card p-3 h-100">
+            <div class="ratio ratio-16x9 mb-3">
+              <iframe src="https://www.youtube.com/embed/aircAruvnKk" title="Redes Neuronales e IA" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <h6 class="text-cyan mb-1">01. ¿Qué es una Red Neuronal?</h6>
+            <p class="small text-muted-cyber mb-0">Fundamentos visuales de Deep Learning e Inteligencia Artificial.</p>
+          </div>
+        </div>
+        <!-- Video 2 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="cyber-card p-3 h-100">
+            <div class="ratio ratio-16x9 mb-3">
+              <iframe src="https://www.youtube.com/embed/zjkBMFhNj_g" title="Introducción a LLMs" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <h6 class="text-pink mb-1">02. Introducción a los Grandes Modelos de Lenguaje (LLMs)</h6>
+            <p class="small text-muted-cyber mb-0">Arquitectura y funcionamiento de modelos generativos modernos.</p>
+          </div>
+        </div>
+        <!-- Video 3 -->
+        <div class="col-md-6 col-lg-4">
+          <div class="cyber-card p-3 h-100">
+            <div class="ratio ratio-16x9 mb-3">
+              <iframe src="https://www.youtube.com/embed/inWWhr5tnEA" title="Fundamentos de Ciberseguridad" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <h6 class="text-yellow mb-1">03. Ciberseguridad y Protección de Sistemas</h6>
+            <p class="small text-muted-cyber mb-0">Principios esenciales de seguridad informática y defensa en red.</p>
+          </div>
+        </div>
+
+        <!-- =================================================================
+             9 TARJETAS ADICIONALES DE YOUTUBE COMENTADAS (SEGÚN REQUERIMIENTO)
+             =================================================================
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/rfscVS0vtbw" allowfullscreen></iframe></div><h6>04. Curso de Python para IA</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/PkZNo7MFNFg" allowfullscreen></iframe></div><h6>05. JavaScript Moderno ES6+</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/1Rs2ND1ryYc" allowfullscreen></iframe></div><h6>06. Diseño CSS3 y Responsive</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/SWYqp7iY_Tc" allowfullscreen></iframe></div><h6>07. Git y GitHub Profesional</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/i_LwzRVP7bg" allowfullscreen></iframe></div><h6>08. Machine Learning para Todos</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/7eh4d6sabA0" allowfullscreen></iframe></div><h6>09. Ciencia de Datos con Python</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/Oe421EPjeBE" allowfullscreen></iframe></div><h6>10. Desarrollo Backend & APIs</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/3c-iBn73dDE" allowfullscreen></iframe></div><h6>11. Contenedores y Despliegue Cloud</h6></div></div>
+        <div class="col-md-6 col-lg-4"><div class="cyber-card p-3"><div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/jBzwzrDvZ18" allowfullscreen></iframe></div><h6>12. Ingeniería de Prompts Avanzada</h6></div></div>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Formulario de Contacto Funcional (EmailJS / FormSubmit) -->
+  <section id="contacto" class="py-5">
+    <div class="container">
+      <h2 class="section-title mb-4"><span class="text-cyan">// 05.</span> TRANSMISIÓN_DE_CONTACTO</h2>
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="cyber-card p-4 h-100">
+            <h4 class="text-cyan mb-3">DATOS_DE_ENLACE</h4>
+            <p class="small text-muted-cyber">
+              Puedes escribirme mediante el formulario conectado a mi correo o a través de mis canales directos:
+            </p>
+            <ul class="list-unstyled small mt-3">
+              <li class="mb-3"><i class="bi bi-person-vcard text-pink"></i> <strong>Matrícula:</strong> 23-MIST-8-001</li>
+              <li class="mb-3"><i class="bi bi-envelope text-cyan"></i> <strong>Email:</strong> josecuevasjim@gmail.com</li>
+              <li class="mb-3"><i class="bi bi-whatsapp text-green"></i> <strong>Tel / WhatsApp:</strong> +1 (829) 343-8843</li>
+              <li class="mb-3"><i class="bi bi-geo-alt text-yellow"></i> <strong>Dirección:</strong> Los Olivos, Herrera, SDO</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <form id="cyberContactForm" action="https://formsubmit.co/josecuevasjim@gmail.com" method="POST" class="cyber-card p-4">
+            <input type="hidden" name="_subject" value="Contacto desde Portafolio Cyberpunk IA (Proyecto 2)">
+            <input type="hidden" name="_captcha" value="false">
+            <div class="mb-3">
+              <label class="form-label text-cyan">NOMBRE DEL REMITENTE</label>
+              <input type="text" name="from_name" id="from_name" class="form-control cyber-input" required placeholder="Tu nombre completo">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-cyan">CORREO ELECTRÓNICO</label>
+              <input type="email" name="reply_to" id="reply_to" class="form-control cyber-input" required placeholder="correo@dominio.com">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-cyan">MENSAJE</label>
+              <textarea name="message" id="message" rows="3" class="form-control cyber-input" required placeholder="Escribe tu consulta o propuesta..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-cyber-pink w-100">ENVIAR TRANSMISIÓN <i class="bi bi-send"></i></button>
+            <div id="statusAlert" class="alert alert-info mt-3 d-none small"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center border-top border-secondary">
+    <div class="container">
+      <p class="small mb-1">© 2026 JOSÉ MANUEL CUEVAS JIMÉNEZ (23-MIST-8-001) // LICENCIA MIT</p>
+      <div class="d-flex justify-content-center gap-3 fs-5">
+        <a href="https://github.com/KratosTechRD" target="_blank" class="text-cyan"><i class="bi bi-github"></i></a>
+        <a href="mailto:josecuevasjim@gmail.com" class="text-pink"><i class="bi bi-envelope-fill"></i></a>
+        <a href="https://wa.me/18293438843" target="_blank" class="text-green"><i class="bi bi-whatsapp"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Scripts Integrados: Matrix Canvas, Dark/Light Mode, Filtros y EmailJS -->
+  <script>
+    // 1. FONDO MATRIX EN CANVAS
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*+<>/\\|{}[]';
+    const fontSize = 15;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      ctx.fillStyle = isLight ? 'rgba(244, 247, 252, 0.12)' : 'rgba(8, 10, 16, 0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = isLight ? '#007a33' : '#00ff66';
+      ctx.font = fontSize + 'px Share Tech Mono';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 45);
+
+    // 2. TOGGLE MODO DARK / LIGHT CON CONTRASTE 100%
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    themeToggle.addEventListener('click', () => {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+
+      if (next === 'light') {
+        themeIcon.className = 'bi bi-moon-stars-fill';
+        themeText.textContent = 'DARK';
+      } else {
+        themeIcon.className = 'bi bi-sun-fill';
+        themeText.textContent = 'LIGHT';
+      }
+    });
+
+    // 3. FILTROS DINÁMICOS DE PROYECTOS (WEB, APP, DISEÑO)
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectItems = document.querySelectorAll('.project-item');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+        projectItems.forEach(item => {
+          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+            item.classList.remove('d-none');
+          } else {
+            item.classList.add('d-none');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
